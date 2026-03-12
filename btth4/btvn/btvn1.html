@@ -1,0 +1,36 @@
+<input type="password" id="pass">
+
+<div id="strength"></div>
+
+<script>
+
+document.getElementById("pass").addEventListener("input",function(){
+
+let v=this.value
+
+let strength=document.getElementById("strength")
+
+if(v.length<6){
+
+strength.textContent="Yếu"
+strength.style.color="red"
+
+}
+
+else if(v.length<10){
+
+strength.textContent="Trung bình"
+strength.style.color="orange"
+
+}
+
+else{
+
+strength.textContent="Mạnh"
+strength.style.color="green"
+
+}
+
+})
+
+</script>

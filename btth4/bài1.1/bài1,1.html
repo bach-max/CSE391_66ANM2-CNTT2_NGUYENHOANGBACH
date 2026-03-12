@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Bảng điểm sinh viên</title>
+
+<style>
+
+body{
+font-family: Arial;
+}
+
+table{
+border-collapse: collapse;
+width:600px;
+margin-top:20px;
+}
+
+th,td{
+border:1px solid black;
+padding:8px;
+text-align:center;
+}
+
+.low{
+background:yellow;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Quản lý điểm sinh viên</h2>
+
+Họ tên
+<input id="name">
+
+Điểm
+<input id="score" type="number">
+
+<button id="addBtn">Thêm</button>
+
+<table>
+
+<thead>
+<tr>
+<th>STT</th>
+<th>Họ tên</th>
+<th>Điểm</th>
+<th>Xếp loại</th>
+<th>Thao tác</th>
+</tr>
+</thead>
+
+<tbody id="body"></tbody>
+
+</table>
+
+<p id="stat"></p>
+
+<script>
+
+let students = []
+
+function rank(score){
+
+if(score>=8.5) return "Giỏi"
+if(score>=7) return "Khá"
+if(score>=5) return "Trung bình"
+return "Yếu"
+
+}
+
+function render(){
+
+let body=document.getElementById("body")
+body.innerHTML=""
+
+let total=0
+
+students.forEach((s,index)=>{
+
+total+=s.score
+
+let tr=document.createElement("tr")
+
+if(s.score<5) tr.classList.add("low")
+
+tr.innerHTML=
+
+"<td>"+(index+1)+"</td>"+
+"<td>"+s.name+"</td>"+
+"<td>"+s.score+"</td>"+
+"<td>"+rank(s.score)+"</td>"+
+"<td><button data-index='"+index+"'>Xóa</button></td>"
+
+body.appendChild(tr)
+
+})
+
+let avg=students.length? (total/students.length).toFixed(2):0
+
+document.getElementById("stat").textContent=
+"Tổng SV: "+students.length+" | Điểm TB: "+avg
+
+}
+
+function addStudent(){
+
+let name=document.getElementById("name").value.trim()
+let score=Number(document.getElementById("score").value)
+
+if(name=="" || score<0 || score>10 || isNaN(score)){
+
+alert("Dữ liệu không hợp lệ")
+return
+
+}
+
+students.push({name,score})
+
+render()
+
+document.getElementById("name").value=""
+document.getElementById("score").value=""
+document.getElementById("name").focus()
+
+}
+
+document.getElementById("addBtn").addEventListener("click",addStudent)
+
+document.getElementById("score").addEventListener("keyup",function(e){
+
+if(e.key==="Enter") addStudent()
+
+})
+
+document.getElementById("body").addEventListener("click",function(e){
+
+if(e.target.tagName==="BUTTON"){
+
+let index=e.target.getAttribute("data-index")
+
+students.splice(index,1)
+
+render()
+
+}
+
+})
+
+</script>
+
+</body>
+</html>

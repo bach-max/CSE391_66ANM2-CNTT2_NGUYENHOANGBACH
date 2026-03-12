@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Tìm kiếm sinh viên</title>
+
+<style>
+
+table{
+border-collapse:collapse;
+width:600px;
+margin-top:20px;
+}
+
+th,td{
+border:1px solid black;
+padding:8px;
+text-align:center;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Danh sách sinh viên</h2>
+
+<input id="search" placeholder="Tìm tên">
+
+<select id="filter">
+<option value="all">Tất cả</option>
+<option>Giỏi</option>
+<option>Khá</option>
+<option>Trung bình</option>
+<option>Yếu</option>
+</select>
+
+<table>
+
+<thead>
+<tr>
+<th>STT</th>
+<th>Tên</th>
+<th id="sortScore">Điểm</th>
+<th>Xếp loại</th>
+</tr>
+</thead>
+
+<tbody id="body"></tbody>
+
+</table>
+
+<p id="empty"></p>
+
+<script>
+
+let students=[
+{name:"Nguyễn An",score:9},
+{name:"Trần Bình",score:7},
+{name:"Lê Cường",score:4},
+{name:"Phạm Dũng",score:6}
+]
+
+let asc=true
+
+function rank(score){
+
+if(score>=8.5) return "Giỏi"
+if(score>=7) return "Khá"
+if(score>=5) return "Trung bình"
+return "Yếu"
+
+}
+
+function applyFilters(){
+
+let keyword=document.getElementById("search").value.toLowerCase()
+let filter=document.getElementById("filter").value
+
+let list=students.filter(s=>{
+
+let okName=s.name.toLowerCase().includes(keyword)
+
+let okRank=filter==="all" || rank(s.score)===filter
+
+return okName && okRank
+
+})
+
+list.sort((a,b)=> asc ? a.score-b.score : b.score-a.score)
+
+render(list)
+
+}
+
+function render(list){
+
+let body=document.getElementById("body")
+
+body.innerHTML=""
+
+if(list.length==0){
+
+document.getElementById("empty").textContent="Không có kết quả"
+
+return
+
+}
+
+document.getElementById("empty").textContent=""
+
+list.forEach((s,i)=>{
+
+let tr=document.createElement("tr")
+
+tr.innerHTML=
+
+"<td>"+(i+1)+"</td>"+
+"<td>"+s.name+"</td>"+
+"<td>"+s.score+"</td>"+
+"<td>"+rank(s.score)+"</td>"
+
+body.appendChild(tr)
+
+})
+
+}
+
+document.getElementById("search").addEventListener("input",applyFilters)
+
+document.getElementById("filter").addEventListener("change",applyFilters)
+
+document.getElementById("sortScore").addEventListener("click",function(){
+
+asc=!asc
+applyFilters()
+
+})
+
+applyFilters()
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,53 @@
+<div id="step1">
+
+<input placeholder="Tên">
+<button onclick="next()">Tiếp</button>
+
+</div>
+
+<div id="step2" style="display:none">
+
+<input placeholder="Email">
+<button onclick="back()">Quay lại</button>
+<button onclick="next2()">Tiếp</button>
+
+</div>
+
+<div id="step3" style="display:none">
+
+<h3>Xác nhận thông tin</h3>
+<button onclick="back2()">Quay lại</button>
+
+</div>
+
+<script>
+
+function next(){
+
+document.getElementById("step1").style.display="none"
+document.getElementById("step2").style.display="block"
+
+}
+
+function back(){
+
+document.getElementById("step2").style.display="none"
+document.getElementById("step1").style.display="block"
+
+}
+
+function next2(){
+
+document.getElementById("step2").style.display="none"
+document.getElementById("step3").style.display="block"
+
+}
+
+function back2(){
+
+document.getElementById("step3").style.display="none"
+document.getElementById("step2").style.display="block"
+
+}
+
+</script>

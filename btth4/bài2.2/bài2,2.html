@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Đặt hàng</title>
+
+<style>
+
+.error{
+color:red;
+font-size:14px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Form đặt hàng</h2>
+
+<form id="form">
+
+Sản phẩm
+<select id="product">
+<option value="">--Chọn sản phẩm--</option>
+<option>Áo</option>
+<option>Quần</option>
+<option>Giày</option>
+</select>
+<span class="error" id="productErr"></span>
+
+Số lượng
+<input type="number" id="qty">
+<span class="error" id="qtyErr"></span>
+
+Ngày giao
+<input type="date" id="date">
+<span class="error" id="dateErr"></span>
+
+Địa chỉ
+<input id="address">
+<span class="error" id="addressErr"></span>
+
+Ghi chú
+<textarea id="note"></textarea>
+<div id="count">0/200</div>
+
+Phương thức thanh toán
+<label><input type="radio" name="pay">COD</label>
+<label><input type="radio" name="pay">Chuyển khoản</label>
+<label><input type="radio" name="pay">Ví</label>
+<span class="error" id="payErr"></span>
+
+<p>Tổng tiền: <span id="total">0</span></p>
+
+<button type="submit">Đặt hàng</button>
+
+</form>
+
+<script>
+
+const prices={
+"Áo":150000,
+"Quần":200000,
+"Giày":500000
+}
+
+function calc(){
+
+let p=document.getElementById("product").value
+let q=Number(document.getElementById("qty").value)
+
+if(prices[p]){
+
+let total=prices[p]*q
+
+document.getElementById("total").textContent=
+total.toLocaleString("vi-VN")+" đ"
+
+}
+
+}
+
+document.getElementById("product").addEventListener("change",calc)
+
+document.getElementById("qty").addEventListener("input",calc)
+
+document.getElementById("note").addEventListener("input",function(){
+
+let len=this.value.length
+
+document.getElementById("count").textContent=len+"/200"
+
+})
+
+</script>
+
+</body>
+</html>

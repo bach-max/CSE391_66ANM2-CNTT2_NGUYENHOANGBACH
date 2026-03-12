@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<meta charset="UTF-8">
+<title>Form đăng ký</title>
+
+<style>
+
+.error{
+color:red;
+font-size:14px;
+}
+
+input{
+display:block;
+margin-bottom:5px;
+}
+
+</style>
+</head>
+
+<body>
+
+<h2>Đăng ký tài khoản</h2>
+
+<form id="form">
+
+Họ tên
+<input id="name">
+<span class="error" id="nameErr"></span>
+
+Email
+<input id="email">
+<span class="error" id="emailErr"></span>
+
+SĐT
+<input id="phone">
+<span class="error" id="phoneErr"></span>
+
+Mật khẩu
+<input type="password" id="pass">
+<span class="error" id="passErr"></span>
+
+Xác nhận mật khẩu
+<input type="password" id="confirm">
+<span class="error" id="confirmErr"></span>
+
+<label><input type="radio" name="gender"> Nam</label>
+<label><input type="radio" name="gender"> Nữ</label>
+
+<span class="error" id="genderErr"></span>
+
+<label><input type="checkbox" id="terms"> Đồng ý điều khoản</label>
+
+<span class="error" id="termsErr"></span>
+
+<button type="submit">Đăng ký</button>
+
+</form>
+
+<p id="success"></p>
+
+<script>
+
+function showError(id,msg){
+
+document.getElementById(id).textContent=msg
+
+}
+
+function clearError(id){
+
+document.getElementById(id).textContent=""
+
+}
+
+function validateName(){
+
+let v=document.getElementById("name").value.trim()
+
+let regex=/^[a-zA-ZÀ-ỹ\s]{3,}$/
+
+if(!regex.test(v)){
+
+showError("nameErr","Tên không hợp lệ")
+
+return false
+
+}
+
+clearError("nameErr")
+
+return true
+
+}
+
+function validateEmail(){
+
+let v=document.getElementById("email").value
+
+let regex=/^[^\s@]+@[^\s@]+\.[^\s@]+$/
+
+if(!regex.test(v)){
+
+showError("emailErr","Email sai")
+
+return false
+
+}
+
+clearError("emailErr")
+
+return true
+
+}
+
+function validatePhone(){
+
+let v=document.getElementById("phone").value
+
+let regex=/^0[0-9]{9}$/
+
+if(!regex.test(v)){
+
+showError("phoneErr","SĐT sai")
+
+return false
+
+}
+
+clearError("phoneErr")
+
+return true
+
+}
+
+function validatePass(){
+
+let v=document.getElementById("pass").value
+
+let regex=/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/
+
+if(!regex.test(v)){
+
+showError("passErr","Mật khẩu yếu")
+
+return false
+
+}
+
+clearError("passErr")
+
+return true
+
+}
+
+function validateConfirm(){
+
+let p=document.getElementById("pass").value
+let c=document.getElementById("confirm").value
+
+if(p!==c){
+
+showError("confirmErr","Không khớp")
+
+return false
+
+}
+
+clearError("confirmErr")
+
+return true
+
+}
+
+function validateGender(){
+
+let g=document.querySelector("input[name='gender']:checked")
+
+if(!g){
+
+showError("genderErr","Chọn giới tính")
+
+return false
+
+}
+
+clearError("genderErr")
+
+return true
+
+}
+
+function validateTerms(){
+
+let t=document.getElementById("terms").checked
+
+if(!t){
+
+showError("termsErr","Phải đồng ý")
+
+return false
+
+}
+
+clearError("termsErr")
+
+return true
+
+}
+
+document.getElementById("form").addEventListener("submit",function(e){
+
+e.preventDefault()
+
+let ok=
+validateName() &
+validateEmail() &
+validatePhone() &
+validatePass() &
+validateConfirm() &
+validateGender() &
+validateTerms()
+
+if(ok){
+
+document.getElementById("form").style.display="none"
+
+document.getElementById("success").textContent="Đăng ký thành công 🎉"
+
+}
+
+})
+
+</script>
+
+</body>
+</html>
